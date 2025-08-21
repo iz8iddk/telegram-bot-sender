@@ -14,8 +14,11 @@ body{font-family:'Cairo',sans-serif;background:#111;color:#fff;display:flex;just
 .navbar button{background:none;border:none;color:#fff;font-size:16px;cursor:pointer;transition:color .3s;}
 .navbar button:hover{color:#ff0057}
 
+/* Online Counter */
+#onlineCounter{position:fixed;top:60px;right:20px;background:#222;padding:8px 15px;border-radius:12px;box-shadow:0 0 8px #000;font-size:14px;color:#0f0;z-index:10001}
+
 /* Sections */
-section{display:none;flex-direction:column;align-items:center;text-align:center;width:100%;max-width:400px;padding:20px;margin-top:70px;}
+section{display:none;flex-direction:column;align-items:center;text-align:center;width:100%;max-width:400px;padding:20px;margin-top:100px;}
 .active{display:flex}
 
 h1,h2{margin-bottom:15px}
@@ -63,6 +66,9 @@ input:focus{box-shadow:inset 0 0 8px #ff0057;outline:none}
   <button onclick="showSection('faq')">الأسئلة</button>
 </div>
 
+<!-- Online Counter -->
+<div id="onlineCounter">المتواجدين الآن: <span id="onlineNumber">1258</span></div>
+
 <!-- Home Section -->
 <section id="home" class="active">
   <h1>مرحبًا بك في موقع زيادة متابعين تيك توك</h1>
@@ -98,9 +104,9 @@ input:focus{box-shadow:inset 0 0 8px #ff0057;outline:none}
 <!-- Reviews Section -->
 <section id="reviews">
   <h1>آراء عملائنا</h1>
-  <div class="review"><span>محمد:</span> الخدمة ممتازة جدًا! زاد متابعيني بسرعة 🚀</div>
-  <div class="review"><span>سارة:</span> شكراً لكم على الموقع الرائع ❤️</div>
-  <div class="review"><span>أحمد:</span> جربت الباقة المجانية ووصلت فعلاً 👍</div>
+  <div class="review"><span>محمد علي:</span> الخدمة ممتازة جدًا! زاد متابعيني بسرعة 🚀</div>
+  <div class="review"><span>سارة مهند:</span> شكراً لكم على الموقع الرائع ❤️</div>
+  <div class="review"><span>أحمد سامي:</span> جربت الباقة المجانية ووصلت فعلاً 👍</div>
 </section>
 
 <!-- FAQ Section -->
@@ -162,21 +168,30 @@ async function sendMessage(){
 }
 
 // Fake Live Notifications
-const fakeUsers=["أحمد من مصر","سارة من السعودية","محمد من الكويت","ليلى من الإمارات","يوسف من الأردن"];
-const fakePackages=["100 متابع","200 متابع","500 متابع","1000 متابع"];
+const fakeUsers=["أحمد علي","سارة مهند","محمد حسن","ليلى خالد","يوسف سامي","نور أحمد","محمود عبد الله","رنا طارق","خالد مصطفى","هبة سعيد"];
+const fakeCountries=["من مصر","من السعودية","من الكويت","من الإمارات","من الأردن","من المغرب","من العراق","من قطر"];
+const fakePackages=["100 متابع","200 متابع","500 متابع","1000 متابع","2000 متابع","5000 متابع"];
 
 function showLiveToast(){
   const toast=document.createElement("div");
   toast.className="live-toast";
   const user=fakeUsers[Math.floor(Math.random()*fakeUsers.length)];
+  const country=fakeCountries[Math.floor(Math.random()*fakeCountries.length)];
   const pack=fakePackages[Math.floor(Math.random()*fakePackages.length)];
-  toast.innerText=`${user} حصل على ${pack} 🎉`;
+  toast.innerText=`${user} ${country} اشترك في باقة ${pack} 🎉`;
   document.body.appendChild(toast);
-
   setTimeout(()=>{toast.style.opacity="1";},100);
   setTimeout(()=>{toast.style.opacity="0";setTimeout(()=>toast.remove(),500);},4000);
 }
 setInterval(showLiveToast,7000);
+
+// Online Counter
+function updateOnlineCounter(){
+  const online=document.getElementById("onlineNumber");
+  online.innerText=Math.floor(Math.random()*3000+800); // رقم عشوائي بين 800 و 3800
+}
+setInterval(updateOnlineCounter,5000);
+updateOnlineCounter();
 </script>
 </body>
 </html>
