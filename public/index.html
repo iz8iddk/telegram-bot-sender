@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <title>إرسال رسالة إلى تيليجرام</title>
+</head>
+<body>
+  <h2>أرسل رسالة إلى تيليجرام</h2>
+
+  <input type="text" id="name" placeholder="اكتب اسمك هنا" />
+  <br><br>
+  <input type="text" id="message" placeholder="اكتب رسالتك هنا" />
+  <br><br>
+  <button onclick="sendMessage()">إرسال</button>
+
+  <p id="result"></p>
+
+  <script>
+    async function sendMessage() {
+      const name = document.getElementById("name").value.trim();
+      const message = document.getElementById("message").value.trim();
+      const result = document.getElementById("result");
+
+      if (!name || !message) {
+        alert("يرجى كتابة الاسم والرسالة");
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/send-message", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, message })
+        });
+
+        const text = await res.text();
+        result.innerText = text;
+
+        if (res.ok) {
+          document.getElementById("name").value = "";
+          document.getElementById("message").value = "";
+        }
+      } catch {
+        result.innerText = "حدث خطأ في الاتصال بالسيرفر.";
+      }
+    }
+  </script>
+</body>
+</html>
