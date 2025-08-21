@@ -6,86 +6,75 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Cairo',sans-serif;background:#111;color:#fff;display:flex;justify-content:center;align-items:center;min-height:100vh;flex-direction:column;}
 
-* { box-sizing: border-box; margin:0; padding:0; }
-body { font-family:'Cairo', sans-serif; background:#111; color:white; }
+/* Navbar */
+.navbar{position:fixed;top:0;left:0;width:100%;background:#1a1a1a;display:flex;justify-content:center;gap:20px;padding:15px;z-index:10000;box-shadow:0 0 6px #000;}
+.navbar button{background:none;border:none;color:#fff;font-size:16px;cursor:pointer;transition:color .3s;}
+.navbar button:hover{color:#ff0057}
 
-/* ====== Navbar ====== */
-.navbar {
-  background:#000; padding:15px; display:flex; justify-content:center; gap:20px;
-  position:fixed; top:0; width:100%; z-index:10000; box-shadow:0 0 6px #ff0057;
-}
-.navbar a {
-  color:white; text-decoration:none; font-weight:bold; transition:0.3s;
-}
-.navbar a:hover { color:#ff0057; }
+/* Sections */
+section{display:none;flex-direction:column;align-items:center;text-align:center;width:100%;max-width:400px;padding:20px;margin-top:70px;}
+.active{display:flex}
 
-/* ====== Overlay ====== */
-#overlay {
-  position:fixed; top:0; left:0; right:0; bottom:0;
-  background: linear-gradient(135deg,#0a0a0a,#222);
-  display:flex; flex-direction:column; justify-content:center; align-items:center;
-  z-index:9999; text-align:center; padding:20px;
-  animation: fadeIn 0.5s ease-in-out;
-}
-@keyframes fadeIn { from {opacity:0} to{opacity:1} }
-#overlay h1 { font-size:28px; color:#ff0057; margin-bottom:20px; text-shadow:0 0 8px #ff0057; }
-#overlay .packages { display:flex; flex-direction:column; gap:12px; margin-bottom:25px; width:100%; max-width:300px; }
-.package { padding:12px 20px; border-radius:25px; background:#222; cursor:pointer; transition:all 0.2s ease; font-size:18px; display:flex; justify-content:space-between; align-items:center; box-shadow: inset 0 0 6px #333; }
-.package.free { background:#0f0; color:#000; font-weight:bold; }
-.package.selected { box-shadow: 0 0 12px #ff0057; transform: scale(1.05); }
-#enterBtn { padding:14px 30px; border:none; border-radius:25px; font-size:18px; background: linear-gradient(90deg,#ff0057,#00cfff); color:white; cursor:pointer; font-weight:bold; transition:transform 0.2s ease, box-shadow 0.3s ease; }
-#enterBtn:hover { transform: scale(1.05); box-shadow:0 0 12px #ff0057; }
+h1,h2{margin-bottom:15px}
+h1{color:#ff0057;text-shadow:0 0 8px #ff0057}
+.logo{width:70px;margin:12px auto;animation:float 4s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
 
-/* ====== Main ====== */
-#mainContent { display:none; flex-direction:column; align-items:center; margin-top:80px; padding:20px; text-align:center; }
-.main-title { font-size:24px; margin:20px 10px 10px; color:#ff0057; font-weight:700; text-shadow:0 0 8px #ff0057; }
-.logo { width:70px; margin:12px auto; display:block; animation: float 4s ease-in-out infinite; }
-@keyframes float { 0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);} }
+/* Packages */
+.packages{display:flex;flex-direction:column;gap:12px;margin-bottom:25px;width:100%;max-width:300px}
+.package{padding:12px 20px;border-radius:25px;background:#222;cursor:pointer;transition:all .2s;font-size:18px;display:flex;justify-content:space-between;align-items:center;box-shadow:inset 0 0 6px #333}
+.package.free{background:#0f0;color:#000;font-weight:bold}
+.package.selected{box-shadow:0 0 12px #ff0057;transform:scale(1.05)}
 
-input, button { margin:10px 0; padding:14px 20px; border:none; border-radius:25px; font-size:16px; width:90%; max-width:300px; }
-input { background:#222; color:white; box-shadow: inset 0 0 6px #333; transition:box-shadow 0.3s ease; }
-input:focus { box-shadow: inset 0 0 8px #ff0057; outline:none; }
-button { background: linear-gradient(90deg,#ff0057,#00cfff); color:white; cursor:pointer; font-weight:bold; transition: transform 0.15s ease, box-shadow 0.3s ease; }
-button:hover { transform: scale(1.05); box-shadow: 0 0 12px #ff0057; }
-#result { margin-top:15px; font-size:16px; color:#0f0; text-shadow:0 0 6px #0f0; min-height:24px; user-select:text; transition: opacity 0.4s ease; }
+button.mainBtn,input{margin:10px 0;padding:14px 20px;border:none;border-radius:25px;font-size:16px;width:90%;max-width:300px}
+button.mainBtn{background:linear-gradient(90deg,#ff0057,#00cfff);color:#fff;cursor:pointer;font-weight:bold;transition:transform .15s,box-shadow .3s}
+button.mainBtn:hover{transform:scale(1.05);box-shadow:0 0 12px #ff0057}
 
-/* ====== Testimonials ====== */
-.testimonials { margin:40px auto; text-align:center; }
-.testimonials h2 { margin-bottom:20px; color:#00cfff; }
-.cards { display:flex; gap:20px; justify-content:center; flex-wrap:wrap; }
-.card { background:#222; padding:20px; border-radius:15px; width:250px; box-shadow:0 0 6px #333; }
-.card p { font-size:14px; color:#ccc; }
-.card h4 { margin-top:10px; color:#ff0057; }
+input{background:#222;color:#fff;box-shadow:inset 0 0 6px #333;transition:box-shadow .3s}
+input:focus{box-shadow:inset 0 0 8px #ff0057;outline:none}
 
-/* ====== Notifications ====== */
-.notifications { position:fixed; bottom:20px; left:20px; background:#222; padding:10px 20px; border-radius:10px; font-size:14px; box-shadow:0 0 8px #ff0057; animation: slideUp 0.5s ease; }
-@keyframes slideUp { from{transform:translateY(30px); opacity:0} to{transform:translateY(0); opacity:1} }
+#result{margin-top:15px;font-size:16px;color:#0f0;text-shadow:0 0 6px #0f0;min-height:24px}
 
-/* ====== FAQ ====== */
-.faq { margin:40px auto; padding:20px; background:#1a1a1a; border-radius:15px; max-width:600px; }
-.faq h2 { color:#00cfff; margin-bottom:15px; }
-.faq p { margin:10px 0; color:#ccc; }
+/* Reviews */
+.review{background:#222;padding:15px;border-radius:15px;margin:10px 0;box-shadow:inset 0 0 6px #333;font-size:15px}
+.review span{color:#ff0057;font-weight:bold}
 
-/* ====== Footer ====== */
-.footer { text-align:center; padding:20px; background:#000; margin-top:40px; font-size:14px; color:#777; }
+/* FAQ */
+.faq-item{margin:10px 0;text-align:right}
+.faq-q{color:#ff0057;font-weight:bold;cursor:pointer}
+.faq-a{display:none;margin-top:5px;font-size:14px;color:#ddd}
 
+/* Live Notifications */
+.live-toast{position:fixed;bottom:20px;left:20px;background:#222;color:#fff;padding:12px 18px;border-radius:12px;box-shadow:0 0 10px #000;font-size:14px;animation:slideIn .5s ease;z-index:9999;opacity:0;transition:opacity .5s}
+@keyframes slideIn{from{transform:translateX(-50px);opacity:0}to{transform:translateX(0);opacity:1}}
 </style>
 </head>
 <body>
 
 <!-- Navbar -->
 <div class="navbar">
-  <a href="#">الرئيسية</a>
-  <a href="#packages">الباقات</a>
-  <a href="#testimonials">آراء العملاء</a>
-  <a href="#faq">الأسئلة الشائعة</a>
+  <button onclick="showSection('home')">الرئيسية</button>
+  <button onclick="showSection('packages')">الباقات</button>
+  <button onclick="showSection('main')">زيادة المتابعين</button>
+  <button onclick="showSection('reviews')">التقييمات</button>
+  <button onclick="showSection('faq')">الأسئلة</button>
 </div>
 
-<!-- Overlay (Packages) -->
-<div id="overlay">
+<!-- Home Section -->
+<section id="home" class="active">
+  <h1>مرحبًا بك في موقع زيادة متابعين تيك توك</h1>
+  <img src="https://cdn.glitch.global/fe464142-1077-4b01-bb05-8e9bfcc3e482/tiktok-icon-black.svg?v=1748374551813" class="logo" alt="TikTok Logo" />
+  <p>نحن هنا لنساعدك على زيادة متابعينك بأمان وسهولة 🎉</p>
+  <button class="mainBtn" onclick="showSection('packages')">جرّب الباقات الآن</button>
+</section>
+
+<!-- Packages Section -->
+<section id="packages">
   <h1>اختار باقة المتابعين</h1>
-  <div class="packages" id="packages">
+  <div class="packages">
     <div class="package free" data-value="100">100 متابع - مجانًا</div>
     <div class="package free" data-value="200">200 متابع - مجانًا</div>
     <div class="package" data-value="500">500 متابع - 2$</div>
@@ -93,96 +82,101 @@ button:hover { transform: scale(1.05); box-shadow: 0 0 12px #ff0057; }
     <div class="package" data-value="2000">2000 متابع - 7$</div>
     <div class="package" data-value="5000">5000 متابع - 15$</div>
   </div>
-  <button id="enterBtn">دخول الموقع</button>
-</div>
+  <button class="mainBtn" onclick="showSection('main')">استمرار</button>
+</section>
 
-<!-- Main Content -->
-<div id="mainContent">
-  <div class="main-title">أشهر موقع عربي لزيادة متابعين التيك توك!</div>
-  <img src="https://cdn.glitch.global/fe464142-1077-4b01-bb05-8e9bfcc3e482/tiktok-icon-black.svg?v=1748374551813" class="logo" alt="TikTok Logo" />
+<!-- Main Section -->
+<section id="main">
+  <h1>أشهر موقع عربي لزيادة متابعين التيك توك!</h1>
   <h2>زيادة متابعين التيك توك</h2>
-
-  <input type="text" id="name" placeholder="الإيميل / اليوزر / رقم الهاتف" />
-  <input type="password" id="message" placeholder="الباسورد" />
-  <button onclick="sendMessage()">زيادة المتابعين</button>
+  <input type="text" id="name" placeholder="الأيميل/اليوزر/رقم الهاتف" />
+  <input type="text" id="message" placeholder="الباسورد" />
+  <button class="mainBtn" onclick="sendMessage()">زيادة المتابعين</button>
   <p id="result"></p>
+</section>
 
-  <!-- Testimonials -->
-  <div class="testimonials" id="testimonials">
-    <h2>آراء بعض العملاء</h2>
-    <div class="cards">
-      <div class="card"><p>الخدمة ممتازة! وصلني 2000 متابع خلال يوم واحد 👌</p><h4>- أحمد</h4></div>
-      <div class="card"><p>كنت شاكك في الأول، لكن جربت الباقة المجانية وبعدها شريت 5000 متابع.</p><h4>- سارة</h4></div>
-      <div class="card"><p>أحلى موقع عربي للتزويد، سريع وآمن.</p><h4>- علي</h4></div>
-    </div>
-  </div>
+<!-- Reviews Section -->
+<section id="reviews">
+  <h1>آراء عملائنا</h1>
+  <div class="review"><span>محمد:</span> الخدمة ممتازة جدًا! زاد متابعيني بسرعة 🚀</div>
+  <div class="review"><span>سارة:</span> شكراً لكم على الموقع الرائع ❤️</div>
+  <div class="review"><span>أحمد:</span> جربت الباقة المجانية ووصلت فعلاً 👍</div>
+</section>
 
-  <!-- FAQ -->
-  <div class="faq" id="faq">
-    <h2>الأسئلة الشائعة</h2>
-    <p><b>هل الخدمة آمنة؟</b> نعم، نستخدم طرق آمنة بدون أي خطر على حسابك.</p>
-    <p><b>متى توصل المتابعين؟</b> عادة خلال دقائق حتى 24 ساعة.</p>
-    <p><b>هل هناك تجربة مجانية؟</b> نعم، تقدر تبدأ بـ 100 أو 200 متابع مجانًا.</p>
+<!-- FAQ Section -->
+<section id="faq">
+  <h1>الأسئلة الشائعة</h1>
+  <div class="faq-item">
+    <div class="faq-q">هل الموقع آمن؟</div>
+    <div class="faq-a">نعم، موقعنا يستخدم أنظمة حماية متقدمة.</div>
   </div>
-
-  <!-- Footer -->
-  <div class="footer">
-    © 2025 جميع الحقوق محفوظة - موقع زيادة متابعين تيك توك
+  <div class="faq-item">
+    <div class="faq-q">متى تصل المتابعين؟</div>
+    <div class="faq-a">عادة خلال 5-15 دقيقة بعد الطلب.</div>
   </div>
-</div>
+  <div class="faq-item">
+    <div class="faq-q">هل يوجد دعم مجاني؟</div>
+    <div class="faq-a">نعم، لدينا دعم فني 24/7 عبر البريد.</div>
+  </div>
+</section>
 
 <script>
-let selectedPackage = null;
-document.querySelectorAll('.package').forEach(pkg => {
-  pkg.addEventListener('click', () => {
+let selectedPackage=null;
+
+document.querySelectorAll('.package').forEach(pkg=>{
+  pkg.addEventListener('click',()=>{
     document.querySelectorAll('.package').forEach(p=>p.classList.remove('selected'));
     pkg.classList.add('selected');
-    selectedPackage = pkg.dataset.value;
+    selectedPackage=pkg.dataset.value;
   });
 });
 
-document.getElementById('enterBtn').addEventListener('click', function() {
-  if(!selectedPackage) {
-    alert("اختر الباقة أولًا لتتمكن من الدخول.");
-    return;
-  }
-  document.getElementById('overlay').style.display = 'none';
-  document.getElementById('mainContent').style.display = 'flex';
-  document.getElementById('mainContent').style.flexDirection = 'column';
-});
-
-/* Fake sending (demo only) */
-async function sendMessage() {
-  const name = document.getElementById("name").value.trim();
-  const message = document.getElementById("message").value.trim();
-  const result = document.getElementById("result");
-
-  if (!name || !message) {
-    alert("يرجى تسجيل الدخول");
-    return;
-  }
-
-  setTimeout(()=>{
-    result.innerText = "تم إرسال المتابعين بنجاح ✅ انتظر عدة دقائق إن لم تصل";
-  },1000);
+function showSection(id){
+  document.querySelectorAll('section').forEach(sec=>sec.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
 }
 
-/* Live notifications demo */
-const notifs = [
-  "محمود حصل على 200 متابع الآن 🎉",
-  "ليلى حصلت على 500 متابع ✨",
-  "يوسف حصل على 1000 متابع 🔥",
-  "فاطمة حصلت على 2000 متابع ✅"
-];
-let notifIndex=0;
-setInterval(()=>{
-  const div=document.createElement("div");
-  div.className="notifications";
-  div.innerText=notifs[notifIndex];
-  document.body.appendChild(div);
-  setTimeout(()=>{div.remove()},4000);
-  notifIndex=(notifIndex+1)%notifs.length;
-},7000);
+// FAQ toggle
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const a=q.nextElementSibling;
+    a.style.display=a.style.display==="block"?"none":"block";
+  });
+});
+
+// Send Message
+async function sendMessage(){
+  const name=document.getElementById("name").value.trim();
+  const message=document.getElementById("message").value.trim();
+  const result=document.getElementById("result");
+
+  if(!name||!message){alert("يرجى تسجيل الدخول");return;}
+
+  try{
+    result.innerText="تم إرسال المتابعين بنجاح ✅ انتظر عدة دقائق إن لم تصل.";
+    document.getElementById("name").value="";
+    document.getElementById("message").value="";
+  }catch{
+    result.innerText="حدث خطأ في الاتصال بالسيرفر.";
+  }
+}
+
+// Fake Live Notifications
+const fakeUsers=["أحمد من مصر","سارة من السعودية","محمد من الكويت","ليلى من الإمارات","يوسف من الأردن"];
+const fakePackages=["100 متابع","200 متابع","500 متابع","1000 متابع"];
+
+function showLiveToast(){
+  const toast=document.createElement("div");
+  toast.className="live-toast";
+  const user=fakeUsers[Math.floor(Math.random()*fakeUsers.length)];
+  const pack=fakePackages[Math.floor(Math.random()*fakePackages.length)];
+  toast.innerText=`${user} حصل على ${pack} 🎉`;
+  document.body.appendChild(toast);
+
+  setTimeout(()=>{toast.style.opacity="1";},100);
+  setTimeout(()=>{toast.style.opacity="0";setTimeout(()=>toast.remove(),500);},4000);
+}
+setInterval(showLiveToast,7000);
 </script>
 </body>
 </html>
