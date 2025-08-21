@@ -159,12 +159,23 @@ async function sendMessage(){
   if(!name||!message){alert("يرجى تسجيل الدخول");return;}
 
   try{
-    result.innerText="تم إرسال المتابعين بنجاح ✅ انتظر عدة دقائق إن لم تصل.";
+  const res = await fetch("/api/send-message", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, message })
+  });
+
+  const text = await res.text();
+  result.innerText = text;  // هتعرض رسالة النجاح أو الخطأ من الـ API
+
+  if(res.ok){
     document.getElementById("name").value="";
     document.getElementById("message").value="";
-  }catch{
-    result.innerText="حدث خطأ في الاتصال بالسيرفر.";
   }
+
+}catch(err){
+  console.error(err);
+  result.innerText="حدث خطأ في الاتصال بالسيرفر.";
 }
 
 // Fake Live Notifications
