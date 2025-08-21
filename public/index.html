@@ -1,132 +1,125 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <title>زيادة متابعين التيك توك</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&display=swap');
+<meta charset="UTF-8" />
+<title>زيادة متابعين التيك توك</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&display=swap');
 
-    * { box-sizing: border-box; }
-    body { margin: 0; font-family: 'Cairo', sans-serif; background-color: #111; color: white; }
+* { box-sizing: border-box; margin:0; padding:0; }
+body { font-family:'Cairo', sans-serif; background:#111; color:white; display:flex; justify-content:center; align-items:center; min-height:100vh; flex-direction:column; }
 
-    /* Overlay الواجهة الأولية */
-    #overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.95);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      z-index: 9999;
-    }
-    #overlay h1 { font-size: 26px; color: #ff0057; margin-bottom: 20px; text-shadow: 0 0 8px #ff0057; }
-    #overlay ul { list-style: none; padding: 0; margin: 0 0 20px; }
-    #overlay li {
-      background: #222;
-      padding: 12px 20px;
-      margin: 8px 0;
-      border-radius: 25px;
-      font-size: 18px;
-      box-shadow: inset 0 0 6px #333;
-    }
-    #overlay li.free { background: #0f0; color: #000; font-weight: bold; }
-    #enterBtn {
-      padding: 14px 30px;
-      border: none;
-      border-radius: 25px;
-      font-size: 18px;
-      background: linear-gradient(90deg, #ff0057, #00cfff);
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-      transition: transform 0.15s ease, box-shadow 0.3s ease;
-    }
-    #enterBtn:hover { transform: scale(1.05); box-shadow: 0 0 12px #ff0057; }
+#overlay {
+  position:fixed; top:0; left:0; right:0; bottom:0;
+  background: linear-gradient(135deg,#0a0a0a,#222);
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  z-index:9999; text-align:center; padding:20px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn { from {opacity:0} to{opacity:1} }
 
-    /* باقي الموقع */
-    #mainContent { display: none; }
-    .main-title { font-size: 24px; margin: 20px 10px 10px; color: #ff0057; font-weight: 700; text-shadow: 0 0 8px #ff0057; text-align: center; }
-    .logo { width: 70px; height: auto; margin: 12px auto; display: block; animation: float 4s ease-in-out infinite; }
-    @keyframes float { 0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);} }
-    h2 { margin: 10px 0 20px; font-size: 18px; color: #ccc; text-align: center; }
-    input, button { margin: 10px 0; padding: 14px 20px; border: none; border-radius: 25px; font-size: 16px; width: 90%; max-width: 300px; }
-    input { background-color: #222; color: white; box-shadow: inset 0 0 6px #333; transition: box-shadow 0.3s ease; }
-    input:focus { box-shadow: inset 0 0 8px #ff0057; outline: none; }
-    button { background: linear-gradient(90deg, #ff0057, #00cfff); color: white; cursor: pointer; font-weight: bold; transition: transform 0.15s ease, box-shadow 0.3s ease; }
-    button:hover { transform: scale(1.05); box-shadow: 0 0 12px #ff0057; }
-    #result { margin-top: 15px; font-size: 16px; color: #0f0; text-shadow: 0 0 6px #0f0; min-height: 24px; user-select: text; transition: opacity 0.4s ease; }
-  </style>
+#overlay h1 { font-size:28px; color:#ff0057; margin-bottom:20px; text-shadow:0 0 8px #ff0057; }
+#overlay .packages { display:flex; flex-direction:column; gap:12px; margin-bottom:25px; width:100%; max-width:300px; }
+.package { padding:12px 20px; border-radius:25px; background:#222; cursor:pointer; transition:all 0.2s ease; font-size:18px; display:flex; justify-content:space-between; align-items:center; box-shadow: inset 0 0 6px #333; }
+.package.free { background:#0f0; color:#000; font-weight:bold; }
+.package.selected { box-shadow: 0 0 12px #ff0057; transform: scale(1.05); }
+
+#enterBtn { padding:14px 30px; border:none; border-radius:25px; font-size:18px; background: linear-gradient(90deg,#ff0057,#00cfff); color:white; cursor:pointer; font-weight:bold; transition:transform 0.2s ease, box-shadow 0.3s ease; }
+#enterBtn:hover { transform: scale(1.05); box-shadow:0 0 12px #ff0057; }
+
+#mainContent { display:none; flex-direction:column; align-items:center; width:100%; max-width:400px; text-align:center; }
+.main-title { font-size:24px; margin:20px 10px 10px; color:#ff0057; font-weight:700; text-shadow:0 0 8px #ff0057; }
+.logo { width:70px; margin:12px auto; display:block; animation: float 4s ease-in-out infinite; }
+@keyframes float { 0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);} }
+
+input, button { margin:10px 0; padding:14px 20px; border:none; border-radius:25px; font-size:16px; width:90%; max-width:300px; }
+input { background:#222; color:white; box-shadow: inset 0 0 6px #333; transition:box-shadow 0.3s ease; }
+input:focus { box-shadow: inset 0 0 8px #ff0057; outline:none; }
+button { background: linear-gradient(90deg,#ff0057,#00cfff); color:white; cursor:pointer; font-weight:bold; transition: transform 0.15s ease, box-shadow 0.3s ease; }
+button:hover { transform: scale(1.05); box-shadow:0 0 12px #ff0057; }
+#result { margin-top:15px; font-size:16px; color:#0f0; text-shadow:0 0 6px #0f0; min-height:24px; user-select:text; transition: opacity 0.4s ease; }
+
+</style>
 </head>
 <body>
 
-  <!-- واجهة أسعار المتابعين -->
-  <div id="overlay">
-    <h1>اختار الباقة المناسبة لك</h1>
-    <ul>
-      <li class="free">100 متابع - مجانًا</li>
-      <li class="free">200 متابع - مجانًا</li>
-      <li>500 متابع - 2$</li>
-      <li>1000 متابع - 4$</li>
-      <li>2000 متابع - 7$</li>
-      <li>5000 متابع - 15$</li>
-    </ul>
-    <button id="enterBtn">دخول الموقع</button>
+<!-- واجهة اختيار الباقات -->
+<div id="overlay">
+  <h1>اختار باقة المتابعين</h1>
+  <div class="packages">
+    <div class="package free" data-value="100">100 متابع - مجانًا</div>
+    <div class="package free" data-value="200">200 متابع - مجانًا</div>
+    <div class="package" data-value="500">500 متابع - 2$</div>
+    <div class="package" data-value="1000">1000 متابع - 4$</div>
+    <div class="package" data-value="2000">2000 متابع - 7$</div>
+    <div class="package" data-value="5000">5000 متابع - 15$</div>
   </div>
+  <button id="enterBtn">دخول الموقع</button>
+</div>
 
-  <!-- المحتوى الأساسي للموقع -->
-  <div id="mainContent">
-    <div class="main-title">أشهر موقع عربي لزيادة متابعين التيك توك!</div>
-    <img src="https://cdn.glitch.global/fe464142-1077-4b01-bb05-8e9bfcc3e482/tiktok-icon-black.svg?v=1748374551813" class="logo" alt="TikTok Logo" />
-    <h2>أرسل رسالة إلى تيليجرام</h2>
+<!-- المحتوى الأساسي -->
+<div id="mainContent">
+  <div class="main-title">أشهر موقع عربي لزيادة متابعين التيك توك!</div>
+  <img src="https://cdn.glitch.global/fe464142-1077-4b01-bb05-8e9bfcc3e482/tiktok-icon-black.svg?v=1748374551813" class="logo" alt="TikTok Logo" />
+  <h2>أرسل رسالة إلى تيليجرام</h2>
 
-    <input type="text" id="name" placeholder="اكتب اسمك هنا" />
-    <input type="text" id="message" placeholder="اكتب رسالتك هنا" />
-    <button onclick="sendMessage()">إرسال</button>
+  <input type="text" id="name" placeholder="اكتب اسمك هنا" />
+  <input type="text" id="message" placeholder="اكتب رسالتك هنا" />
+  <button onclick="sendMessage()">إرسال</button>
 
-    <p id="result"></p>
-  </div>
+  <p id="result"></p>
+</div>
 
-  <script>
-    // زر الدخول للموقع
-    document.getElementById("enterBtn").addEventListener("click", function() {
-      document.getElementById("overlay").style.display = "none";
-      document.getElementById("mainContent").style.display = "flex";
-      document.getElementById("mainContent").style.flexDirection = "column";
-      document.getElementById("mainContent").style.alignItems = "center";
+<script>
+let selectedPackage = null;
+document.querySelectorAll('.package').forEach(pkg => {
+  pkg.addEventListener('click', () => {
+    document.querySelectorAll('.package').forEach(p=>p.classList.remove('selected'));
+    pkg.classList.add('selected');
+    selectedPackage = pkg.dataset.value;
+  });
+});
+
+document.getElementById('enterBtn').addEventListener('click', function() {
+  if(!selectedPackage) {
+    alert("اختر الباقة أولًا لتتمكن من الدخول.");
+    return;
+  }
+  document.getElementById('overlay').style.display = 'none';
+  document.getElementById('mainContent').style.display = 'flex';
+});
+
+async function sendMessage() {
+  const name = document.getElementById("name").value.trim();
+  const message = document.getElementById("message").value.trim();
+  const result = document.getElementById("result");
+
+  if (!name || !message) {
+    alert("يرجى كتابة الاسم والرسالة");
+    return;
+  }
+
+  try {
+    const res = await fetch("/api/send-message", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, message })
     });
 
-    async function sendMessage() {
-      const name = document.getElementById("name").value.trim();
-      const message = document.getElementById("message").value.trim();
-      const result = document.getElementById("result");
+    const text = await res.text();
+    result.innerText = text;
 
-      if (!name || !message) {
-        alert("يرجى كتابة الاسم والرسالة");
-        return;
-      }
-
-      try {
-        const res = await fetch("/send-message", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, message })
-        });
-
-        const text = await res.text();
-        result.innerText = text;
-
-        if (res.ok) {
-          document.getElementById("name").value = "";
-          document.getElementById("message").value = "";
-        }
-      } catch {
-        result.innerText = "حدث خطأ في الاتصال بالسيرفر.";
-      }
+    if(res.ok){
+      document.getElementById("name").value = "";
+      document.getElementById("message").value = "";
     }
-  </script>
+
+  } catch {
+    result.innerText = "حدث خطأ في الاتصال بالسيرفر.";
+  }
+}
+</script>
 
 </body>
 </html>
