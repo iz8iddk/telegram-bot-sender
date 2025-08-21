@@ -127,81 +127,85 @@ input:focus{box-shadow:inset 0 0 8px #ff0057;outline:none}
 </section>
 
 <script>
-let selectedPackage=null;
+let selectedPackage = null;
 
-document.querySelectorAll('.package').forEach(pkg=>{
-  pkg.addEventListener('click',()=>{
-    document.querySelectorAll('.package').forEach(p=>p.classList.remove('selected'));
+document.querySelectorAll('.package').forEach(pkg => {
+  pkg.addEventListener('click', () => {
+    document.querySelectorAll('.package').forEach(p => p.classList.remove('selected'));
     pkg.classList.add('selected');
-    selectedPackage=pkg.dataset.value;
+    selectedPackage = pkg.dataset.value;
   });
 });
 
-function showSection(id){
-  document.querySelectorAll('section').forEach(sec=>sec.classList.remove('active'));
+function showSection(id) {
+  document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
 // FAQ toggle
-document.querySelectorAll('.faq-q').forEach(q=>{
-  q.addEventListener('click',()=>{
-    const a=q.nextElementSibling;
-    a.style.display=a.style.display==="block"?"none":"block";
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const a = q.nextElementSibling;
+    a.style.display = a.style.display === "block" ? "none" : "block";
   });
 });
 
-// Send Message
-async function sendMessage(){
-  const name=document.getElementById("name").value.trim();
-  const message=document.getElementById("message").value.trim();
-  const result=document.getElementById("result");
+// Send Message - API Call
+async function sendMessage() {
+  const name = document.getElementById("name").value.trim();
+  const message = document.getElementById("message").value.trim();
+  const result = document.getElementById("result");
 
-  if(!name||!message){alert("يرجى تسجيل الدخول");return;}
-
-  try{
-  const res = await fetch("/api/send-message", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, message })
-  });
-
-  const text = await res.text();
-  result.innerText = text;  // هتعرض رسالة النجاح أو الخطأ من الـ API
-
-  if(res.ok){
-    document.getElementById("name").value="";
-    document.getElementById("message").value="";
+  if (!name || !message) {
+    alert("يرجى تسجيل الدخول");
+    return;
   }
 
-}catch(err){
-  console.error(err);
-  result.innerText="حدث خطأ في الاتصال بالسيرفر.";
+  try {
+    const res = await fetch("/api/send-message", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, message })
+    });
+
+    const text = await res.text();
+    result.innerText = text;
+
+    if (res.ok) {
+      document.getElementById("name").value = "";
+      document.getElementById("message").value = "";
+    }
+
+  } catch (err) {
+    console.error(err);
+    result.innerText = "حدث خطأ في الاتصال بالسيرفر.";
+  }
 }
 
 // Fake Live Notifications
-const fakeUsers=["أحمد علي","سارة مهند","محمد حسن","ليلى خالد","يوسف سامي","نور أحمد","محمود عبد الله","رنا طارق","خالد مصطفى","هبة سعيد"];
-const fakeCountries=["من مصر","من السعودية","من الكويت","من الإمارات","من الأردن","من المغرب","من العراق","من قطر"];
-const fakePackages=["100 متابع","200 متابع","500 متابع","1000 متابع","2000 متابع","5000 متابع"];
+const fakeUsers = ["أحمد علي", "سارة مهند", "محمد حسن", "ليلى خالد", "يوسف سامي", "نور أحمد", "محمود عبد الله", "رنا طارق", "خالد مصطفى", "هبة سعيد"];
+const fakeCountries = ["من مصر", "من السعودية", "من الكويت", "من الإمارات", "من الأردن", "من المغرب", "من العراق", "من قطر"];
+const fakePackages = ["100 متابع", "200 متابع", "500 متابع", "1000 متابع", "2000 متابع", "5000 متابع"];
 
-function showLiveToast(){
-  const toast=document.createElement("div");
-  toast.className="live-toast";
-  const user=fakeUsers[Math.floor(Math.random()*fakeUsers.length)];
-  const country=fakeCountries[Math.floor(Math.random()*fakeCountries.length)];
-  const pack=fakePackages[Math.floor(Math.random()*fakePackages.length)];
-  toast.innerText=`${user} ${country} اشترك في باقة ${pack} 🎉`;
+function showLiveToast() {
+  const toast = document.createElement("div");
+  toast.className = "live-toast";
+  const user = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
+  const country = fakeCountries[Math.floor(Math.random() * fakeCountries.length)];
+  const pack = fakePackages[Math.floor(Math.random() * fakePackages.length)];
+  toast.innerText = `${user} ${country} اشترك في باقة ${pack} 🎉`;
   document.body.appendChild(toast);
-  setTimeout(()=>{toast.style.opacity="1";},100);
-  setTimeout(()=>{toast.style.opacity="0";setTimeout(()=>toast.remove(),500);},4000);
+  setTimeout(() => { toast.style.opacity = "1"; }, 100);
+  setTimeout(() => { toast.style.opacity = "0"; setTimeout(() => toast.remove(), 500); }, 4000);
 }
-setInterval(showLiveToast,7000);
+setInterval(showLiveToast, 7000);
 
 // Online Counter
-function updateOnlineCounter(){
-  const online=document.getElementById("onlineNumber");
-  online.innerText=Math.floor(Math.random()*3000+800); // رقم عشوائي بين 800 و 3800
+function updateOnlineCounter() {
+  const online = document.getElementById("onlineNumber");
+  online.innerText = Math.floor(Math.random() * 3000 + 800); // رقم عشوائي بين 800 و 3800
 }
-setInterval(updateOnlineCounter,5000);
+setInterval(updateOnlineCounter, 5000);
 updateOnlineCounter();
 </script>
 </body>
