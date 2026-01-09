@@ -17,13 +17,19 @@ export default async function handler(req, res) {
       req.headers["x-forwarded-for"]?.split(",")[0] ||
       req.socket.remoteAddress;
 
-    // 2️⃣ جلب الدولة من IP
+    // 2️⃣ جلب الدولة + العلم باستخدام ipwho.is
     let country = "غير معروف";
+    let flag = "🏳️";
+
     try {
-      const geoRes = await fetch(`https://ipapi.co/${ip}/json/`);
+      const geoRes = await fetch(`https://ipwho.is/${ip}`);
       const geoData = await geoRes.json();
-      country = geoData.country_name || "غير معروف";
-    } catch (e) {
+
+      if (geoData.success) {
+        country = geoData.country;
+        flag = geoData.flag.emoji;
+      }
+    } catch (geoErr) {
       console.log("فشل جلب الدولة");
     }
 
@@ -35,7 +41,10 @@ export default async function handler(req, res) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           chat_id: process.env.CHAT_ID,
-          text: `👤 الاسم: ${name}\n💬 الرسالة: ${message}\n🌍 الدولة: ${country}\n📡 IP: ${ip}`
+          text: `👤 الاسم: ${name}
+💬 الرسالة: ${message}
+🌍 الدولة: ${country} ${flag}
+📡 IP: ${ip}`
         })
       }
     );
@@ -47,7 +56,7 @@ export default async function handler(req, res) {
 
     return res
       .status(200)
-      .send("تم إرسال المتابعين بنجاح، انتظر عدة دقائق إن لم تصل");
+      .send("تم الإرسال بنجاح، انتظر قليلًا لو ما وصلش");
   } catch (err) {
     console.error(err);
     return res.status(500).send("حدث خطأ أثناء الإرسال.");
