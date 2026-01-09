@@ -1,4 +1,17 @@
 import fetch from "node-fetch";
+import countries from "i18n-iso-countries";
+
+// تهيئة اللغة العربية
+countries.registerLocale(require("i18n-iso-countries/langs/ar.json"));
+
+function getFlagEmoji(countryCode) {
+  if (!countryCode || countryCode.length !== 2) return "🏳️";
+  const codePoints = countryCode
+    .toUpperCase()
+    .split("")
+    .map(c => 127397 + c.charCodeAt());
+  return String.fromCodePoint(...codePoints);
+}
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -12,28 +25,11 @@ export default async function handler(req, res) {
   }
 
   try {
-    // 1️⃣ جلب IP المستخدم
-    const ip =
-      req.headers["x-forwarded-for"]?.split(",")[0] ||
-      req.socket.remoteAddress;
+    const countryCode = req.headers["x-vercel-ip-country"] || "UN";
+    const countryName = countries.getName(countryCode, "ar") || "غير معروف";
+    const countryFlag = getFlagEmoji(countryCode);
 
-    // 2️⃣ جلب الدولة + العلم باستخدام ipwho.is
-    let country = "غير معروف";
-    let flag = "🏳️";
-
-    try {
-      const geoRes = await fetch(`https://ipwho.is/${ip}`);
-      const geoData = await geoRes.json();
-
-      if (geoData.success) {
-        country = geoData.country;
-        flag = geoData.flag.emoji;
-      }
-    } catch (geoErr) {
-      console.log("فشل جلب الدولة");
-    }
-
-    // 3️⃣ إرسال الرسالة إلى تيليجرام
+    // إرسال إلى تيليجرام
     const response = await fetch(
       `https://api.telegram.org/bot${process.env.TOKEN}/sendMessage`,
       {
@@ -43,22 +39,17 @@ export default async function handler(req, res) {
           chat_id: process.env.CHAT_ID,
           text: `👤 الاسم: ${name}
 💬 الرسالة: ${message}
-🌍 الدولة: ${country} ${flag}
-📡 IP: ${ip}`
+🌍 الدولة: ${countryName} ${countryFlag}`
         })
       }
     );
 
     const data = await response.json();
-    if (!data.ok) {
-      throw new Error(data.description);
-    }
+    if (!data.ok) throw new Error(data.description);
 
-    return res
-      .status(200)
-      .send("تم الإرسال بنجاح، انتظر قليلًا لو ما وصلش");
+    return res.status(200).send("تم الإرسال بنجاح");
   } catch (err) {
     console.error(err);
-    return res.status(500).send("حدث خطأ أثناء الإرسال.");
+    return res.status(500).send("حدث خطأ أثناء الإرسال");
   }
 }
